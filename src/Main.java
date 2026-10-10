@@ -1,15 +1,22 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import com.ratelimiter.InMemoryRateLimitStore;
+import com.ratelimiter.RateLimitDecision;
+import com.ratelimiter.RateLimiter;
+import com.ratelimiter.RateLimitPolicies;
+import com.ratelimiter.Tier;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+/** Small executable example. The library classes are under {@code com.ratelimiter}. */
+public final class Main {
+    private Main() {
+    }
+
+    public static void main(String[] args) {
+        var store = new InMemoryRateLimitStore();
+        var limiter = new RateLimiter(store, RateLimitPolicies.defaults());
+
+        for (int request = 1; request <= 12; request++) {
+            RateLimitDecision decision = limiter.check("user-42", Tier.FREE);
+            System.out.printf("request=%d allowed=%s remaining=%d headers=%s%n",
+                    request, decision.allowed(), decision.remaining(), decision.headers());
         }
     }
 }
