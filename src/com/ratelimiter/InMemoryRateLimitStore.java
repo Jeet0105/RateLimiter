@@ -1,5 +1,6 @@
 package com.ratelimiter;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -157,6 +158,7 @@ public final class InMemoryRateLimitStore implements RateLimitStore {
     }
 
     public static final class StoreCapacityExceededException extends RuntimeException {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         public StoreCapacityExceededException(String message) {

@@ -69,10 +69,6 @@ public final class RateLimiter {
                 now.plusSeconds(resetSeconds), resetSeconds, retrySeconds);
     }
 
-    public RateLimitPolicy policy(Tier tier) {
-        return policies.get(Objects.requireNonNull(tier, "tier"));
-    }
-
     private static void validateKey(String key) {
         if (key == null || key.isBlank() || key.length() > MAX_KEY_LENGTH) {
             throw new IllegalArgumentException("key must be non-blank and at most " + MAX_KEY_LENGTH + " characters");
